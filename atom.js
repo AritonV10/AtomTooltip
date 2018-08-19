@@ -1,36 +1,38 @@
-document.addEventListener("mouseover", function(event) {
-  if (event.target.getAttribute("aria-describedby") != null) {
-    event.preventDefault();
-    var tool_tip = atom_tool_init(
-      event.target.className.split(' '),
-      event.target.dataset.atom,
-      event.target.getAttribute("atom-action"));
+$(function(){
+  document.addEventListener("mouseover", function(event) {
+    if (event.target.getAttribute("aria-describedby") != null) {
+      event.preventDefault();
+      var tool_tip = atom_tool_init(
+        event.target.className.split(' '),
+        event.target.dataset.atom,
+        event.target.getAttribute("atom-action"));
 
-    var elem = event.target,
-      pos_ = elem.getBoundingClientRect(),
-      atom_action = elem.getAttribute("atom-action") || "down";
-      
-    var top_ = event.target.getAttribute("atom-top") || 10,
-    		bottom_ = event.target.getAttribute("atom-bottom") || -15;
+      var elem = event.target,
+        pos_ = elem.getBoundingClientRect(),
+        atom_action = elem.getAttribute("atom-action") || "down";
 
-    tool_tip.style.top = 
-    (atom_action == "up" ? (pos_.top - elem.offsetHeight) : (pos_.top + elem.offsetHeight)) + "px";
-    
-    tool_tip.style.right = pos_.right + "px";
-    tool_tip.style.left = pos_.left + (elem.offsetWidth / 2) - (tool_tip.offsetWidth / 2) + "px";
+      var top_ = event.target.getAttribute("atom-top") || 10,
+          bottom_ = event.target.getAttribute("atom-bottom") || -15;
 
-    tool_tip.style.bottom = pos_.bottom + "px";
+      tool_tip.style.top = 
+      (atom_action == "up" ? (pos_.top - elem.offsetHeight) : (pos_.top + elem.offsetHeight)) + "px";
 
-    tool_tip.style.visibility = "visibile";
-    tool_tip.style.opacity = "1";
+      tool_tip.style.right = pos_.right + "px";
+      tool_tip.style.left = pos_.left + (elem.offsetWidth / 2) - (tool_tip.offsetWidth / 2) + "px";
 
-    tool_tip.style.transform = "translateY(" + (atom_action == "down" ? top_ : bottom_) + "px)";
-    elem.addEventListener("mouseleave", function() {
-     	tool_tip.style.opacity = "0";
-     	atom_tool_dest();
-    })
-  }
-});
+      tool_tip.style.bottom = pos_.bottom + "px";
+
+      tool_tip.style.visibility = "visibile";
+      tool_tip.style.opacity = "1";
+
+      tool_tip.style.transform = "translateY(" + (atom_action == "down" ? top_ : bottom_) + "px)";
+      elem.addEventListener("mouseleave", function() {
+        tool_tip.style.opacity = "0";
+        atom_tool_dest();
+      })
+    }
+  });
+})
 
 function atom_tool_init(target, message, atom_action) {
   var body_ = document.querySelector("body");
